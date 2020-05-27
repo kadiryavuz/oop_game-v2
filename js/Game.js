@@ -3,12 +3,17 @@
  * Game.js */
 
 /**
+ * randomPhrases global to specify the words to be played in the game
+ */ 
+const randomPhrases = ["car washing", "cinema", "Library", "cell", "Tree of Life"];
+
+/**
  * Game class
  */
 class Game {
     constructor() {
         this.missed = 0;
-        this.phrases = new Array("car washing", "cinema", "Library", "cell", "Tree of Life");
+        this.phrases = new Array(5).fill('').map((val, index) => { return val = new Phrase(randomPhrases[index])});
         this.activePhrase = null;
 
         //extra property not to handle 5 tries - instead of hardcoded checks
@@ -23,7 +28,7 @@ class Game {
     startGame = () => {
         const overlayEl = document.getElementById('overlay');
         overlayEl.style.display = 'none';
-        this.activePhrase = new Phrase(this.getRandomPhrase());
+        this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
     }
 
@@ -64,9 +69,9 @@ class Game {
     removeLife = () => {
 
         let liveHearts = document.querySelectorAll("li.tries img[src='images/liveHeart.png'");
-        if(liveHearts[0]) {
+        if (liveHearts[0]) {
             liveHearts[liveHearts.length - 1].src = 'images/lostHeart.png';
-            
+
             this.missed += 1;
             if (this.missed === this.heartsToLive) {
                 setTimeout(() => { this.gameOver(false); }, 300);
@@ -98,7 +103,7 @@ class Game {
      * @param {boolean} isWin The status to check if game is over with win or lose
      */
     gameOver = (isWin) => {
-       
+
         const overlayControl = document.getElementById('overlay');
         overlayControl.style.display = 'block';
         const gameResult = document.getElementById('game-over-message');
@@ -112,9 +117,9 @@ class Game {
             overlayControl.className = 'win';
             let liveHearts = document.querySelectorAll("li.tries img[src='images/liveHeart.png'");
             const remainingHearts = liveHearts.length;
-            if(remainingHearts === this.heartsToLive) {
+            if (remainingHearts === this.heartsToLive) {
                 gameResult.textContent = 'Win! Excellent performance 🚀';
-            } else if(remainingHearts >= 3 && remainingHearts < this.heartsToLive) {
+            } else if (remainingHearts >= 3 && remainingHearts < this.heartsToLive) {
                 gameResult.textContent = "Win! Way to go 🦅";
             } else {
                 gameResult.textContent = "Win! You had better days 🤗"
