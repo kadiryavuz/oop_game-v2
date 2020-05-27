@@ -64,7 +64,6 @@ class Game {
     removeLife = () => {
 
         let liveHearts = document.querySelectorAll("li.tries img[src='images/liveHeart.png'");
-        console.log("hearts: ", liveHearts);
         if(liveHearts[0]) {
             liveHearts[liveHearts.length - 1].src = 'images/lostHeart.png';
             
@@ -121,5 +120,46 @@ class Game {
                 gameResult.textContent = "Win! You had better days 🤗"
             }
         }
+
+        //even a win or lose, thiings need to get cleaned
+        this.resetGame();
+    }
+
+    /**
+     * resetGame applies cleaning traces of previously played game
+     * 
+     */
+    resetGame = () => {
+        //1. Remove all li elements from the Phrase ul element.
+        const phraseLiItems = document.querySelector('div#phrase ul');
+        phraseLiItems.innerHTML = '';
+
+        //2. Enable all of the onscreen keyboard buttons and update each to use the key CSS class, and not use the chosen or wrong CSS classes.
+        const keyButtonItems = document.querySelectorAll('div#qwerty button');
+        for (let i = 0; i < keyButtonItems.length; i += 1) {
+            keyButtonItems[i].disabled = false;
+            keyButtonItems[i].className = 'key';
+        }
+
+
+        //3.Reset all of the heart images (i.e. the player's lives) in the scoreboard at the bottom of the gameboard to display the liveHeart.png image.
+        let heartsContainer = document.querySelector('div#scoreboard ol');
+        heartsContainer.innerHTML = '';
+
+        for (let i = 0; i < this.heartsToLive; i += 1) {
+            let li = document.createElement('li');
+            li.className = 'tries';
+
+            let img = document.createElement('img');
+            img.src = 'images/liveHeart.png';
+            img.alt = 'Heart Icon';
+            img.height = 35;
+            img.width = 30;
+            li.appendChild(img);
+            heartsContainer.appendChild(li);
+        }
+
+        //4. resetting missed prop to default 0
+        this.missed = 0;
     }
 }
