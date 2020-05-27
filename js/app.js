@@ -8,7 +8,7 @@
  */
 class App {
     constructor() {
-        this.game = new Game();
+        this.game = null;
         this.startControl = document.getElementById('btn__reset');
         this.letterControl = document.getElementById('qwerty');
     }
@@ -17,6 +17,7 @@ class App {
      * starter resets first and then starts game interacting with game instance
      */
     starter = () => {
+        this.game = new Game();
         this.game.startGame();
     }
 
