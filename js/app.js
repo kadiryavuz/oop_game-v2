@@ -31,7 +31,7 @@ class App {
         if (onKey) {
             const keyButtonItems = document.querySelectorAll('div#qwerty button');
             const buttonIndex = [...keyButtonItems].findIndex(s => s.textContent === value);
-            if(buttonIndex === -1) {
+            if(buttonIndex === -1 || keyButtonItems[buttonIndex].disabled) {
                 return;
             } else {
                 target = keyButtonItems[buttonIndex];
